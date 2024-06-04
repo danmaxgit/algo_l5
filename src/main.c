@@ -6,35 +6,28 @@
 void shaker_sort(int* array, size_t size, int* compare, int* swap) {
     int left = 0,
         right = size - 1,
-        index_min = -1,
-        index_max = -1,
-        min = INT32_MAX,
-        max = INT32_MIN,
         temp = 0;
     while (left < right) {
-        for (int i =  left; i < right; i++) {
-            if (array[i] < min) {
-                index_min = i;
-                min = array[i];
-                *compare += 1;
+        for (int j = right; j > left; j--) {
+            if (array[j - 1] > array[j]) {
+                temp = array[j - 1];
+                array[j - 1] = array[j];
+                array[j] = temp;
+                *swap += 1;
             }
-            if (array[i] > max) {
-                index_max = i;
-                max = array[i];
-                *compare += 1;
-            }
+            *compare += 1;
         }
-        temp = array[index_min];
-        array[index_min] = array[left];
-        array[left] = temp;
-        temp = array[index_max];
-        array[index_max] = array[right];
-        array[right] = temp;
-        *swap += 2;
         left++;
+        for (int j = left; j < right; j++) {
+            if (array[j] > array[j + 1]) {
+                temp = array[j + 1];
+                array[j + 1] = array[j];
+                array[j] = temp;
+                *swap += 1;
+            }
+            *compare += 1;
+        }
         right--;
-        min = INT32_MAX;
-        max = INT32_MIN;
     }
 }
 
